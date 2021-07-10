@@ -19,13 +19,15 @@ class UserFriendlyTimeOnly(time.UserFriendlyTime):
 class CloseMessage(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.close_command = self.bot.get_command('close')
 
     @commands.command(name='closemessage', aliases=['cm'], usage="[after]")
     @checks.has_permissions(PermissionLevel.SUPPORTER)
     @checks.thread_only()
-    async def close_message(self, ctx, *, after: UserFriendlyTimeOnly = None):
+    async def close_message(self, ctx, *, after='15m'):
         """Close the current thread with the default message."""
-        return await self.bot.get_command('close')(ctx, after=after)
+        after = await UserFriendlyTimeOnly().convert(ctx, after)
+        return await self.close_command(ctx, after=after)
 
 
 def setup(bot):
