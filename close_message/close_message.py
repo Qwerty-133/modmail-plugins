@@ -11,7 +11,9 @@ class UserFriendlyTimeOnly(time.UserFriendlyTime):
     async def convert(self, ctx, argument):
         converted = await super().convert(ctx, argument)
         if converted.arg:
-            raise commands.BadArgument('A message cannot be supplied.')
+            raise commands.BadArgument(
+                f'`{argument}` isn\'t a valid duration string.'
+            )
         converted.arg = DEFAULT_MESSAGE
         return converted
 
