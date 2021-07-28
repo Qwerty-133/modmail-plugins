@@ -9,6 +9,8 @@ CLOSING_MESSAGE = "Feel free to open a new thread if you need anything else."
 
 class UserFriendlyTimeOnly(time.UserFriendlyTime):
     async def convert(self, ctx, argument):
+        if isinstance(argument, int):
+            argument = f"{argument}m"
         converted = await super().convert(ctx, argument)
         if converted.arg:
             raise commands.BadArgument(
