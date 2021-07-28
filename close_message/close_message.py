@@ -30,6 +30,8 @@ class CloseMessage(commands.Cog):
     @checks.has_permissions(PermissionLevel.SUPPORTER)
     @checks.thread_only()
     async def close_message(self, ctx, *, after='15m'):
+        if after.isdigit():
+            after = f'{after}m'
         after = await UserFriendlyTimeOnly().convert(ctx, after)
         return await self.close_command(ctx, after=after)
 
